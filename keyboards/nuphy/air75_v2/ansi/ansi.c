@@ -563,7 +563,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case MAC_DND:
             if (record->event.pressed) {
-                host_system_send(0x9b);
+                host_system_send(0x9B);
             } else {
                 host_system_send(0);
             }
