@@ -320,10 +320,16 @@ void sys_led_show(void)
         if (host_keyboard_led_state().caps_lock) {
             set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
         }
+        if (host_keyboard_led_state().num_lock) {
+            set_right_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
+        }
     }
     else {
         if (dev_info.rf_led & 0x02) {
             set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
+        }
+        if (dev_info.rf_led & 0x01) {
+            set_right_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
         }
     }
 }
