@@ -268,7 +268,7 @@ void set_indicator_leds(keyb_indicators_t inds)
     if (inds.num_lock) {
         /* set_right_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT); */
         for (int i = 0; i < INDICATOR_NUM_LEDS; i++)
-            rgb_matrix_set_color(SIDE_INDEX + INDICATOR_NUM_INDEX + i, 0, 0, SIDE_BLINK_LIGHT);
+            rgb_matrix_set_color(SIDE_INDEX + INDICATOR_NUM_INDEX + i, 0, 0, 255);
     }
 }
 
