@@ -69,12 +69,16 @@ uint8_t r_temp, g_temp, b_temp;
 
 typedef struct keyb_indicators_t
 {
-    uint8_t caps_lock:1;
-    uint8_t num_lock:1;
-    /*
-    uint8_t scroll_lock:1;
-    uint8_t insert:1;
-    */
+    union {
+        struct {
+            uint8_t caps_lock:1;
+            uint8_t num_lock:1;
+            /*
+            uint8_t scroll_lock:1;
+            */
+        };
+        uint8_t indicator_flags;
+    };
 } keyb_indicators_t;
 
 extern DEV_INFO_STRUCT dev_info;
@@ -255,20 +259,11 @@ void set_right_rgb(uint8_t r, uint8_t g, uint8_t b)
  */
 void set_indicator_leds(keyb_indicators_t inds)
 {
-    /* "side line" contains "SIDE_LINE" number leds */
-    #define INDICATOR_NUM_LEDS      1
-    #define INDICATOR_CAPS_INDEX    4
-    #define INDICATOR_NUM_INDEX     0
     if (inds.caps_lock) {
-        /* set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT); */
-        for (int i = 0; i < INDICATOR_NUM_LEDS; i++)
-            rgb_matrix_set_color(SIDE_INDEX + INDICATOR_CAPS_INDEX + i, 0, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
-
+        set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
     }
     if (inds.num_lock) {
-        /* set_right_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT); */
-        for (int i = 0; i < INDICATOR_NUM_LEDS; i++)
-            rgb_matrix_set_color(SIDE_INDEX + INDICATOR_NUM_INDEX + i, 0, 0, 255);
+        set_right_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
     }
 }
 
