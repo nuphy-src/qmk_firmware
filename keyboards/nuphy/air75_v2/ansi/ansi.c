@@ -271,6 +271,4 @@ void housekeeping_task_kb(void) {
     side_led_show();
 
     sleep_handle();
-
-    housekeeping_task_user();
 }
