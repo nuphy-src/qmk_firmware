@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "user_kb.h"
+#include "kb_util.h"
 #include "ansi.h"
 #include "side_table.h"
 #include "ws2812.h"
