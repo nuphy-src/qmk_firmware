@@ -63,28 +63,28 @@ extern uint8_t            side_colour;
  */
 void gpio_init(void) {
     /* enable led power driver  */
-    setPinOutput(DRIVER_LED_CS_PIN);
-    setPinOutput(DRIVER_SIDE_CS_PIN);
-    writePinLow(DRIVER_LED_CS_PIN);
-    writePinLow(DRIVER_SIDE_CS_PIN);
+    gpio_set_pin_output_push_pull(DRIVER_LED_CS_PIN);
+    gpio_set_pin_output_push_pull(DRIVER_SIDE_CS_PIN);
+    gpio_write_pin_low(DRIVER_LED_CS_PIN);
+    gpio_write_pin_low(DRIVER_SIDE_CS_PIN);
     /* set side led pin output low */
-    setPinOutput(DRIVER_SIDE_PIN);
-    writePinLow(DRIVER_SIDE_PIN);
+    gpio_set_pin_output_push_pull(DRIVER_SIDE_PIN);
+    gpio_write_pin_low(DRIVER_SIDE_PIN);
     /* config RF module pin */
-    setPinOutput(NRF_WAKEUP_PIN);
-    writePinHigh(NRF_WAKEUP_PIN);
-    setPinInputHigh(NRF_TEST_PIN);
+    gpio_set_pin_output_push_pull(NRF_WAKEUP_PIN);
+    gpio_write_pin_high(NRF_WAKEUP_PIN);
+    gpio_set_pin_input_high(NRF_TEST_PIN);
     /* reset RF module */
-    setPinOutput(NRF_RESET_PIN);
-    writePinLow(NRF_RESET_PIN);
+    gpio_set_pin_output_push_pull(NRF_RESET_PIN);
+    gpio_write_pin_low(NRF_RESET_PIN);
     wait_ms(50);
-    writePinHigh(NRF_RESET_PIN);
+    gpio_write_pin_high(NRF_RESET_PIN);
     /* config dial switch pin */
-    setPinInputHigh(DEV_MODE_PIN);
-    setPinInputHigh(SYS_MODE_PIN);
+    gpio_set_pin_input_high(DEV_MODE_PIN);
+    gpio_set_pin_input_high(SYS_MODE_PIN);
     /* open led DC driver */
-    setPinOutput(DC_BOOST_PIN);
-    writePinHigh(DC_BOOST_PIN);
+    gpio_set_pin_output_push_pull(DC_BOOST_PIN);
+    gpio_write_pin_high(DC_BOOST_PIN);
 }
 
 /**
@@ -246,11 +246,11 @@ void dial_sw_scan(void) {
     }
     dial_scan_timer = timer_read32();
 
-    setPinInputHigh(DEV_MODE_PIN);
-    setPinInputHigh(SYS_MODE_PIN);
+    gpio_set_pin_input_high(DEV_MODE_PIN);
+    gpio_set_pin_input_high(SYS_MODE_PIN);
 
-    if (readPin(DEV_MODE_PIN)) dial_scan |= 0X01;
-    if (readPin(SYS_MODE_PIN)) dial_scan |= 0X02;
+    if (gpio_read_pin(DEV_MODE_PIN)) dial_scan |= 0X01;
+    if (gpio_read_pin(SYS_MODE_PIN)) dial_scan |= 0X02;
 
     if (dial_save != dial_scan) {
         break_all_key();
@@ -316,16 +316,16 @@ void dial_sw_fast_scan(void) {
     uint8_t dial_check_sys = 0;
     uint8_t debounce = 0;
 
-    setPinInputHigh(DEV_MODE_PIN);
-    setPinInputHigh(SYS_MODE_PIN);
+    gpio_set_pin_input_high(DEV_MODE_PIN);
+    gpio_set_pin_input_high(SYS_MODE_PIN);
 
     // Debounce to get a stable state
     for(debounce=0; debounce<10; debounce++) {
         dial_scan_dev = 0;
         dial_scan_sys = 0;
-        if (readPin(DEV_MODE_PIN))  dial_scan_dev = 0x01;
+        if (gpio_read_pin(DEV_MODE_PIN))  dial_scan_dev = 0x01;
         else                        dial_scan_dev = 0;
-        if (readPin(SYS_MODE_PIN))  dial_scan_sys = 0x01;
+        if (gpio_read_pin(SYS_MODE_PIN))  dial_scan_sys = 0x01;
         else                        dial_scan_sys = 0;
         if((dial_scan_dev != dial_check_dev)||(dial_scan_sys != dial_check_sys))
         {

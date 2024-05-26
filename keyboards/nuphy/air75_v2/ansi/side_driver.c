@@ -73,15 +73,15 @@ void side_sendByte(uint8_t byte)
         // using something like wait_ns(is_one ? T1L : T0L) here throws off timings
         if (is_one) {
             // 1
-            writePinHigh(DRIVER_SIDE_PIN);
+            gpio_write_pin_high(DRIVER_SIDE_PIN);
             wait_ns(WS2812_T1H);
-            writePinLow(DRIVER_SIDE_PIN);
+            gpio_write_pin_low(DRIVER_SIDE_PIN);
             wait_ns(WS2812_T1L);
         } else {
             // 0
-            writePinHigh(DRIVER_SIDE_PIN);
+            gpio_write_pin_high(DRIVER_SIDE_PIN);
             wait_ns(WS2812_T0H);
-            writePinLow(DRIVER_SIDE_PIN);
+            gpio_write_pin_low(DRIVER_SIDE_PIN);
             wait_ns(WS2812_T0L);
         }
     }
