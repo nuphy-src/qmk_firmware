@@ -395,7 +395,7 @@ void m_power_on_dial_sw_scan(void)
 /**
  * @brief  qmk process record
  */
-bool process_record_user(uint16_t keycode, keyrecord_t *record)
+bool process_record_kb(uint16_t keycode, keyrecord_t *record)
 {
     switch (keycode) {
         case RF_DFU:
@@ -642,7 +642,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             return false;
 
         default:
-            return true;
+            return process_record_user(keycode, record)
     }
 }
 
@@ -709,7 +709,7 @@ void m_londing_eeprom_data(void)
 /** 
  *   qmk keyboard post init
  */
-void keyboard_post_init_user(void)
+void keyboard_post_init_kb(void)
 {
     m_gpio_init(); 
     rf_uart_init();               
@@ -719,23 +719,25 @@ void keyboard_post_init_user(void)
     m_break_all_key();           
     m_londing_eeprom_data();    
     m_power_on_dial_sw_scan();  
+
+    keyboard_post_init_user();
 }
 
 /**
-   rgb_matrix_indicators_user
+   rgb_matrix_indicators_kb
  */
-bool rgb_matrix_indicators_user(void)
+bool rgb_matrix_indicators_kb(void)
 {
     if(f_bat_num_show) {
         num_led_show();
     }
-    return true;
+    return rgb_matrix_indicators_user();
 }
 
 /**
-   housekeeping_task_user
+   housekeeping_task_kb
  */
-void housekeeping_task_user(void)
+void housekeeping_task_kb(void)
 {
     timer_pro();
 

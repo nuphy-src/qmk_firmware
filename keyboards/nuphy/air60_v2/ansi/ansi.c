@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "usb_main.h"
 #include "rf_driver.h"
 
-user_config_t user_config;
+kb_config_t kb_config;
 DEV_INFO_STRUCT dev_info =
     {
         .rf_baterry = 100,
@@ -400,7 +400,7 @@ void m_power_on_dial_sw_scan(void)
 /**
  * @brief  qmk process record
  */
-bool process_record_user(uint16_t keycode, keyrecord_t *record)
+bool process_record_kb(uint16_t keycode, keyrecord_t *record)
 {
     switch (keycode) {
         case RF_DFU:
@@ -615,10 +615,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
         case SLEEP_MODE:
             if (record->event.pressed) {
-                if(user_config.sleep_enable) user_config.sleep_enable = false;
-                else user_config.sleep_enable = true;
+                if(kb_config.sleep_enable) kb_config.sleep_enable = false;
+                else kb_config.sleep_enable = true;
                 f_sleep_show       = 1;
-                eeconfig_update_user_datablock(&user_config);
+                eeconfig_update_kb_datablock(&kb_config);
             }
             return false;
 
@@ -656,7 +656,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             return false;
 
         default:
-            return true;
+            return process_record_user(keycode, record);
     }
 }
 
@@ -699,31 +699,31 @@ void timer_pro(void)
  */
 void m_londing_eeprom_data(void)
 {
-    eeconfig_read_user_datablock(&user_config);
-    if (user_config.default_brightness_flag != 0xA5) {
+    eeconfig_read_kb_datablock(&kb_config);
+    if (kb_config.default_brightness_flag != 0xA5) {
         rgb_matrix_sethsv(255, 255, RGB_MATRIX_MAXIMUM_BRIGHTNESS - RGB_MATRIX_VAL_STEP * 2);
-        user_config.default_brightness_flag = 0xA5;
-        user_config.ee_side_mode            = side_mode;
-        user_config.ee_side_light           = side_light;
-        user_config.ee_side_speed           = side_speed;
-        user_config.ee_side_rgb             = side_rgb;
-        user_config.ee_side_colour          = side_colour;
-        user_config.sleep_enable            = true;
-        eeconfig_update_user_datablock(&user_config);
+        kb_config.default_brightness_flag = 0xA5;
+        kb_config.ee_side_mode            = side_mode;
+        kb_config.ee_side_light           = side_light;
+        kb_config.ee_side_speed           = side_speed;
+        kb_config.ee_side_rgb             = side_rgb;
+        kb_config.ee_side_colour          = side_colour;
+        kb_config.sleep_enable            = true;
+        eeconfig_update_kb_datablock(&kb_config);
     } else {
-        side_mode   = user_config.ee_side_mode;
-        side_light  = user_config.ee_side_light;
-        side_speed  = user_config.ee_side_speed;
-        side_rgb    = user_config.ee_side_rgb;
-        side_colour = user_config.ee_side_colour;
+        side_mode   = kb_config.ee_side_mode;
+        side_light  = kb_config.ee_side_light;
+        side_speed  = kb_config.ee_side_speed;
+        side_rgb    = kb_config.ee_side_rgb;
+        side_colour = kb_config.ee_side_colour;
     }
 }
 
 
 /**
-   qmk keyboard post init
+   qmk keyboard post init kb
  */
-void keyboard_post_init_user(void)
+void keyboard_post_init_kb(void)
 {
     m_gpio_init();
     rf_uart_init();
@@ -733,23 +733,25 @@ void keyboard_post_init_user(void)
     m_break_all_key();
     m_londing_eeprom_data();
     m_power_on_dial_sw_scan();
+
+    keyboard_post_init_user();
 }
 
 /**
-   rgb_matrix_indicators_user
+   rgb_matrix_indicators_kb
  */
-bool rgb_matrix_indicators_user(void)
+bool rgb_matrix_indicators_kb(void)
 {
     if(f_bat_num_show) {
         num_led_show();
     }
-    return true;
+    return rgb_matrix_indicators_user();
 }
 
 /**
-   housekeeping_task_user
+   housekeeping_task_kb
  */
-void housekeeping_task_user(void)
+void housekeeping_task_kb(void)
 {
     timer_pro();
 

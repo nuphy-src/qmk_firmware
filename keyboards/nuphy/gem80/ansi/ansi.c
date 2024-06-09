@@ -429,7 +429,7 @@ void m_power_on_dial_sw_scan(void)
 }
 
 /* qmk process record */
-bool process_record_user(uint16_t keycode, keyrecord_t *record)
+bool process_record_kb(uint16_t keycode, keyrecord_t *record)
 {
     no_act_time = 0;
     
@@ -702,7 +702,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
             return true;
 
         default:
-            return true;
+            return process_record_user(keycode, record)
     }
 
     return true;
@@ -781,7 +781,7 @@ void m_londing_eeprom_data(void)
 }
 
 /* qmk keyboard post init */
-void keyboard_post_init_user(void)
+void keyboard_post_init_kb(void)
 {
     m_gpio_init();
 #if(WORK_MODE == THREE_MODE)
@@ -797,26 +797,28 @@ void keyboard_post_init_user(void)
 #if(WORK_MODE == USB_MODE)
     rf_link_show_time = 0;
 #endif
+
+    keyboard_post_init_user();
 }
 
 
-bool rgb_matrix_indicators_user(void)
+bool rgb_matrix_indicators_kb(void)
 {
-    return true;
+    return rgb_matrix_indicators_user();
 }
 
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
+bool rgb_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max)
 {
     if (keymap_config.no_gui) {
         rgb_matrix_set_color(16, 0x00, 0x80, 0x00);
     }
 
     rgb_matrix_set_color(RGB_MATRIX_LED_COUNT-1, 0, 0, 0);
-    return true;
+    return rgb_matrix_indicators_advanced_user(led_min, led_max);
 }
 
 /* qmk housekeeping task */
-void housekeeping_task_user(void)
+void housekeeping_task_kb(void)
 {
     timer_pro();
 
