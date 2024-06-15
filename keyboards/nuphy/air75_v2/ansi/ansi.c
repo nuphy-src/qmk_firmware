@@ -152,13 +152,13 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 
         case SIDE_VAI:
             if (record->event.pressed) {
-                side_light_contol(1);
+                side_light_control(1);
             }
             return false;
 
         case SIDE_VAD:
             if (record->event.pressed) {
-                side_light_contol(0);
+                side_light_control(0);
             }
             return false;
 
@@ -176,13 +176,13 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 
         case SIDE_SPI:
             if (record->event.pressed) {
-                side_speed_contol(1);
+                side_speed_control(1);
             }
             return false;
 
         case SIDE_SPD:
             if (record->event.pressed) {
-                side_speed_contol(0);
+                side_speed_control(0);
             }
             return false;
 

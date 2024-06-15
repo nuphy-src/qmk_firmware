@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define NOP_FUDGE 0.4
 #else
 #error("NOP_FUDGE configuration required")
-#define NOP_FUDGE 1  // this just pleases the compile so the above error is easier to spot
+#define NOP_FUDGE 1  // this just pleases the compiler so the above error is easier to spot
 #endif
 #endif
 
