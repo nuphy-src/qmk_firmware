@@ -20,26 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "side_table.h"
 #include "ws2812.h"
 
-#define SIDE_BRIGHT_MAX     4
-#define SIDE_SPEED_MAX      4
-#define SIDE_COLOUR_MAX     8
-
-#define SIDE_LINE           6
-#define SIDE_LED_NUM        12
-
-#define RF_LED_LINK_PERIOD  500
-#define RF_LED_PAIR_PERIOD  250
-
-
-/* side rgb mode */
-enum {
-    SIDE_WAVE = 0,
-    SIDE_MIX,
-    SIDE_STATIC,
-    SIDE_BREATH,
-    SIDE_OFF,
-};
-
 uint8_t side_mode           = 0;
 uint8_t side_light          = 3;
 uint8_t side_speed          = 2;
@@ -50,32 +30,6 @@ uint8_t side_play_cnt       = 0;
 uint32_t side_play_timer    = 0;
 uint8_t r_temp, g_temp, b_temp;
 rgb_led_t side_leds[SIDE_LED_NUM] = {0};
-
-const uint8_t side_speed_table[5][5] = {
-    [SIDE_WAVE]   = {10, 14, 20, 28, 38}, //
-    [SIDE_MIX]    = {10, 14, 20, 28, 38}, //
-    [SIDE_STATIC] = {50, 50, 50, 50, 50}, //
-    [SIDE_BREATH] = {10, 14, 20, 28, 38}, //
-    [SIDE_OFF]    = {50, 50, 50, 50, 50}, //
-};
-
-const uint8_t side_light_table[6] = {
-    0,   //
-    22,  //
-    34,  //
-    55,  //
-    79,  //
-    106, //
-};
-
-const uint8_t side_led_index_tab[SIDE_LINE][2] = {
-    {5, 6},  //
-    {4, 7},  //
-    {3, 8},  //
-    {2, 9},  //
-    {1, 10}, //
-    {0, 11}, //
-};
 
 extern DEV_INFO_STRUCT dev_info;
 extern kb_config_t     kb_config;
@@ -350,10 +304,10 @@ static void count_rgb_light(uint8_t light_temp) {
 static void side_wave_mode_show(void) {
     uint8_t play_index;
 
-    if (side_play_cnt <= side_speed_table[side_mode][side_speed])
+    if (side_play_cnt <= side_speed_tab[side_mode][side_speed])
         return;
     else
-        side_play_cnt -= side_speed_table[side_mode][side_speed];
+        side_play_cnt -= side_speed_tab[side_mode][side_speed];
     if (side_play_cnt > 20) side_play_cnt = 0;
 
     if (side_rgb)
@@ -378,7 +332,7 @@ static void side_wave_mode_show(void) {
             count_rgb_light(wave_data_tab[play_index]);
         }
 
-        count_rgb_light(side_light_table[side_light]);
+        count_rgb_light(side_light_tab[side_light]);
 
         for (int j = 0; j < 2; j++) {
             side_rgb_set_color(side_led_index_tab[i][j], r_temp >> 2, g_temp >> 2, b_temp >> 2);
@@ -390,10 +344,10 @@ static void side_wave_mode_show(void) {
  * @brief  side_spectrum_mode_show.
  */
 static void side_spectrum_mode_show(void) {
-    if (side_play_cnt <= side_speed_table[side_mode][side_speed])
+    if (side_play_cnt <= side_speed_tab[side_mode][side_speed])
         return;
     else
-        side_play_cnt -= side_speed_table[side_mode][side_speed];
+        side_play_cnt -= side_speed_tab[side_mode][side_speed];
     if (side_play_cnt > 20) side_play_cnt = 0;
 
     light_point_playing(1, 1, FLOW_COLOUR_TAB_LEN, &side_play_point);
@@ -402,7 +356,7 @@ static void side_spectrum_mode_show(void) {
     g_temp = flow_rainbow_colour_tab[side_play_point][1];
     b_temp = flow_rainbow_colour_tab[side_play_point][2];
 
-    count_rgb_light(side_light_table[side_light]);
+    count_rgb_light(side_light_tab[side_light]);
 
     for (int i = 0; i < SIDE_LINE; i++) {
         for (int j = 0; j < 2; j++) {
@@ -417,10 +371,10 @@ static void side_spectrum_mode_show(void) {
 static void side_breathe_mode_show(void) {
     static uint8_t play_point = 0;
 
-    if (side_play_cnt <= side_speed_table[side_mode][side_speed])
+    if (side_play_cnt <= side_speed_tab[side_mode][side_speed])
         return;
     else
-        side_play_cnt -= side_speed_table[side_mode][side_speed];
+        side_play_cnt -= side_speed_tab[side_mode][side_speed];
     if (side_play_cnt > 20) side_play_cnt = 0;
 
     light_point_playing(0, 1, BREATHE_TAB_LEN, &play_point);
@@ -440,7 +394,7 @@ static void side_breathe_mode_show(void) {
     }
 
     count_rgb_light(breathe_data_tab[play_point]);
-    count_rgb_light(side_light_table[side_light]);
+    count_rgb_light(side_light_tab[side_light]);
 
     for (int i = 0; i < SIDE_LINE; i++) {
         for (int j = 0; j < 2; j++) {
@@ -455,10 +409,10 @@ static void side_breathe_mode_show(void) {
 static void side_static_mode_show(void) {
     uint8_t play_index;
 
-    if (side_play_cnt <= side_speed_table[side_mode][side_speed])
+    if (side_play_cnt <= side_speed_tab[side_mode][side_speed])
         return;
     else
-        side_play_cnt -= side_speed_table[side_mode][side_speed];
+        side_play_cnt -= side_speed_tab[side_mode][side_speed];
     if (side_play_cnt > 20) side_play_cnt = 0;
 
     if (side_play_point >= SIDE_COLOUR_MAX) side_play_point = 0;
@@ -475,7 +429,7 @@ static void side_static_mode_show(void) {
             b_temp = colour_lib[side_colour][2];
         }
 
-        count_rgb_light(side_light_table[side_light]);
+        count_rgb_light(side_light_tab[side_light]);
 
         for (int j = 0; j < 2; j++) {
             side_rgb_set_color(side_led_index_tab[i][j], r_temp >> 2, g_temp >> 2, b_temp >> 2);
@@ -487,10 +441,10 @@ static void side_static_mode_show(void) {
  * @brief  side_off_mode_show.
  */
 static void side_off_mode_show(void) {
-    if (side_play_cnt <= side_speed_table[side_mode][side_speed])
+    if (side_play_cnt <= side_speed_tab[side_mode][side_speed])
         return;
     else
-        side_play_cnt -= side_speed_table[side_mode][side_speed];
+        side_play_cnt -= side_speed_tab[side_mode][side_speed];
     if (side_play_cnt > 20) side_play_cnt = 0;
 
     r_temp = 0x00;
