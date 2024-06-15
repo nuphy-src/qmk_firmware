@@ -282,10 +282,10 @@ static void light_point_playing(uint8_t trend, uint8_t step, uint8_t len, uint8_
 }
 
 /**
- * @brief  count_rgb_light.
+ * @brief  side_rgb_brightness.
  * @param light_temp:
  */
-static void count_rgb_light(uint8_t light_temp) {
+static void side_rgb_brightness(uint8_t light_temp) {
     uint16_t temp;
 
     temp   = (light_temp)*r_temp + r_temp;
@@ -329,10 +329,10 @@ static void side_wave_mode_show(void) {
             b_temp = colour_lib[side_colour][2];
 
             light_point_playing(1, 12, WAVE_TAB_LEN, &play_index);
-            count_rgb_light(wave_data_tab[play_index]);
+            side_rgb_brightness(wave_data_tab[play_index]);
         }
 
-        count_rgb_light(side_light_tab[side_light]);
+        side_rgb_brightness(side_light_tab[side_light]);
 
         for (int j = 0; j < 2; j++) {
             side_rgb_set_color(side_led_index_tab[i][j], r_temp >> 2, g_temp >> 2, b_temp >> 2);
@@ -356,7 +356,7 @@ static void side_spectrum_mode_show(void) {
     g_temp = flow_rainbow_colour_tab[side_play_point][1];
     b_temp = flow_rainbow_colour_tab[side_play_point][2];
 
-    count_rgb_light(side_light_tab[side_light]);
+    side_rgb_brightness(side_light_tab[side_light]);
 
     for (int i = 0; i < SIDE_LINE; i++) {
         for (int j = 0; j < 2; j++) {
@@ -393,8 +393,8 @@ static void side_breathe_mode_show(void) {
         b_temp = colour_lib[side_colour][2];
     }
 
-    count_rgb_light(breathe_data_tab[play_point]);
-    count_rgb_light(side_light_tab[side_light]);
+    side_rgb_brightness(breathe_data_tab[play_point]);
+    side_rgb_brightness(side_light_tab[side_light]);
 
     for (int i = 0; i < SIDE_LINE; i++) {
         for (int j = 0; j < 2; j++) {
@@ -429,7 +429,7 @@ static void side_static_mode_show(void) {
             b_temp = colour_lib[side_colour][2];
         }
 
-        count_rgb_light(side_light_tab[side_light]);
+        side_rgb_brightness(side_light_tab[side_light]);
 
         for (int j = 0; j < 2; j++) {
             side_rgb_set_color(side_led_index_tab[i][j], r_temp >> 2, g_temp >> 2, b_temp >> 2);
@@ -659,7 +659,7 @@ void bat_led_show(void) {
             r_temp = 0x80;
             g_temp = 0x40;
             b_temp = 0x00;
-            count_rgb_light(breathe_data_tab[play_point]);
+            side_rgb_brightness(breathe_data_tab[play_point]);
             set_right_rgb(r_temp, g_temp, b_temp);
         } else {
             bat_percent_led(bat_percent);
