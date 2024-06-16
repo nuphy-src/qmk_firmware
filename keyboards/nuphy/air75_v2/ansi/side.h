@@ -15,15 +15,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define SIDE_BRIGHT_MAX     4
-#define SIDE_SPEED_MAX      4
-#define SIDE_COLOUR_MAX     8
+#define SIDE_BRIGHT_MAX 4
+#define SIDE_SPEED_MAX 4
+#define SIDE_COLOUR_MAX 8
 
-#define SIDE_LINE           6
-#define SIDE_LED_NUM        12
+#define SIDE_LINE 6
+#define SIDE_LED_NUM 12
 
-#define RF_LED_LINK_PERIOD  500
-#define RF_LED_PAIR_PERIOD  250
+#define RF_LED_LINK_PERIOD 500
+#define RF_LED_PAIR_PERIOD 250
 
 /* side rgb mode */
 enum {

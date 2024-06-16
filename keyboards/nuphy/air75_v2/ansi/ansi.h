@@ -44,7 +44,7 @@ enum custom_keycodes {
     RGB_TEST
 };
 
-#define SYS_PRT                 G(S(KC_3))
-#define MAC_PRTA                G(S(KC_4))
-#define WIN_PRTA                G(S(KC_S))
-#define MAC_SEARCH              G(KC_SPC)
+#define SYS_PRT G(S(KC_3))
+#define MAC_PRTA G(S(KC_4))
+#define WIN_PRTA G(S(KC_S))
+#define MAC_SEARCH G(KC_SPC)

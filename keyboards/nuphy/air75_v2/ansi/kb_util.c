@@ -26,15 +26,15 @@ DEV_INFO_STRUCT dev_info = {
     .link_mode  = LINK_USB,
     .rf_state   = RF_IDLE,
 };
-bool f_bat_hold         = 0;
-bool f_sys_show         = 0;
-bool f_sleep_show       = 0;
-bool f_send_channel     = 0;
-bool f_dial_sw_init_ok  = 0;
-bool f_rf_sw_press      = 0;
-bool f_dev_reset_press  = 0;
-bool f_rgb_test_press   = 0;
-bool f_bat_num_show     = 0;
+bool f_bat_hold        = 0;
+bool f_sys_show        = 0;
+bool f_sleep_show      = 0;
+bool f_send_channel    = 0;
+bool f_dial_sw_init_ok = 0;
+bool f_rf_sw_press     = 0;
+bool f_dev_reset_press = 0;
+bool f_rgb_test_press  = 0;
+bool f_bat_num_show    = 0;
 
 uint8_t        rf_blink_cnt          = 0;
 uint8_t        rf_sw_temp            = 0;
@@ -49,7 +49,7 @@ host_driver_t *m_host_driver         = 0;
 
 extern bool               f_rf_new_adv_ok;
 extern report_keyboard_t *keyboard_report;
-extern report_nkro_t *nkro_report;
+extern report_nkro_t     *nkro_report;
 extern uint8_t            bitkb_report_buf[32];
 extern uint8_t            bytekb_report_buf[8];
 extern uint8_t            side_mode;
@@ -93,7 +93,9 @@ void gpio_init(void) {
 void long_press_key(void) {
     static uint32_t long_press_timer = 0;
 
-    if (timer_elapsed32(long_press_timer) < 100) return;
+    if (timer_elapsed32(long_press_timer) < 100) {
+        return;
+    }
     long_press_timer = timer_read32();
 
     // Open a new RF device
@@ -111,7 +113,9 @@ void long_press_key(void) {
                 uart_send_cmd(CMD_NEW_ADV, 0, 1);
                 wait_ms(20);
                 uart_receive_pro();
-                if (f_rf_new_adv_ok) break;
+                if (f_rf_new_adv_ok) {
+                    break;
+                }
             }
         }
     } else {
@@ -126,9 +130,9 @@ void long_press_key(void) {
 
             if (dev_info.link_mode != LINK_USB) {
                 if (dev_info.link_mode != LINK_RF_24) {
-                    dev_info.link_mode      = LINK_BT_1;
-                    dev_info.ble_channel    = LINK_BT_1;
-                    dev_info.rf_channel     = LINK_BT_1;
+                    dev_info.link_mode   = LINK_BT_1;
+                    dev_info.ble_channel = LINK_BT_1;
+                    dev_info.rf_channel  = LINK_BT_1;
                 }
             } else {
                 dev_info.ble_channel = LINK_BT_1;
@@ -212,7 +216,9 @@ void break_all_key(void) {
  * @param mode : link mode
  */
 void switch_dev_link(uint8_t mode) {
-    if (mode > LINK_USB) return;
+    if (mode > LINK_USB) {
+        return;
+    }
 
     break_all_key();
 
@@ -242,15 +248,21 @@ void dial_sw_scan(void) {
     static bool     f_first         = true;
 
     if (!f_first) {
-        if (timer_elapsed32(dial_scan_timer) < 20) return;
+        if (timer_elapsed32(dial_scan_timer) < 20) {
+            return;
+        }
     }
     dial_scan_timer = timer_read32();
 
     gpio_set_pin_input_high(DEV_MODE_PIN);
     gpio_set_pin_input_high(SYS_MODE_PIN);
 
-    if (gpio_read_pin(DEV_MODE_PIN)) dial_scan |= 0X01;
-    if (gpio_read_pin(SYS_MODE_PIN)) dial_scan |= 0X02;
+    if (gpio_read_pin(DEV_MODE_PIN)) {
+        dial_scan |= 0X01;
+    }
+    if (gpio_read_pin(SYS_MODE_PIN)) {
+        dial_scan |= 0X02;
+    }
 
     if (dial_save != dial_scan) {
         break_all_key();
@@ -309,62 +321,67 @@ void dial_sw_scan(void) {
  * @brief  power on scan dial switch.
  */
 void dial_sw_fast_scan(void) {
-{
-    uint8_t dial_scan_dev = 0;
-    uint8_t dial_scan_sys = 0;
-    uint8_t dial_check_dev = 0;
-    uint8_t dial_check_sys = 0;
-    uint8_t debounce = 0;
+    {
+        uint8_t dial_scan_dev  = 0;
+        uint8_t dial_scan_sys  = 0;
+        uint8_t dial_check_dev = 0;
+        uint8_t dial_check_sys = 0;
+        uint8_t debounce       = 0;
 
-    gpio_set_pin_input_high(DEV_MODE_PIN);
-    gpio_set_pin_input_high(SYS_MODE_PIN);
+        gpio_set_pin_input_high(DEV_MODE_PIN);
+        gpio_set_pin_input_high(SYS_MODE_PIN);
 
-    // Debounce to get a stable state
-    for(debounce=0; debounce<10; debounce++) {
-        dial_scan_dev = 0;
-        dial_scan_sys = 0;
-        if (gpio_read_pin(DEV_MODE_PIN))  dial_scan_dev = 0x01;
-        else                        dial_scan_dev = 0;
-        if (gpio_read_pin(SYS_MODE_PIN))  dial_scan_sys = 0x01;
-        else                        dial_scan_sys = 0;
-        if((dial_scan_dev != dial_check_dev)||(dial_scan_sys != dial_check_sys))
-        {
-            dial_check_dev = dial_scan_dev;
-            dial_check_sys = dial_scan_sys;
-            debounce = 0;
+        // Debounce to get a stable state
+        for (debounce = 0; debounce < 10; debounce++) {
+            dial_scan_dev = 0;
+            dial_scan_sys = 0;
+            if (gpio_read_pin(DEV_MODE_PIN)) {
+                dial_scan_dev = 0x01;
+            } else {
+                dial_scan_dev = 0;
+            }
+            if (gpio_read_pin(SYS_MODE_PIN)) {
+                dial_scan_sys = 0x01;
+            } else {
+                dial_scan_sys = 0;
+            }
+            if ((dial_scan_dev != dial_check_dev) || (dial_scan_sys != dial_check_sys)) {
+                dial_check_dev = dial_scan_dev;
+                dial_check_sys = dial_scan_sys;
+                debounce       = 0;
+            }
+            wait_ms(1);
         }
-        wait_ms(1);
+
+        // RF link mode
+        if (dial_scan_dev) {
+            if (dev_info.link_mode != LINK_USB) {
+                switch_dev_link(LINK_USB);
+            }
+        } else {
+            if (dev_info.link_mode != dev_info.rf_channel) {
+                switch_dev_link(dev_info.rf_channel);
+            }
+        }
+
+        // Win or Mac
+        if (dial_scan_sys) {
+            if (dev_info.sys_sw_state != SYS_SW_MAC) {
+                default_layer_set(1 << 0);
+                dev_info.sys_sw_state = SYS_SW_MAC;
+                keymap_config.nkro    = 0;
+                break_all_key();
+            }
+        } else {
+            if (dev_info.sys_sw_state != SYS_SW_WIN) {
+                // f_sys_show = 1;
+                default_layer_set(1 << 2);
+                dev_info.sys_sw_state = SYS_SW_WIN;
+                keymap_config.nkro    = 1;
+                break_all_key();
+            }
+        }
     }
-
-    // RF link mode
-    if (dial_scan_dev) {
-        if (dev_info.link_mode != LINK_USB) {
-            switch_dev_link(LINK_USB);
-        }
-    } else {
-        if (dev_info.link_mode != dev_info.rf_channel) {
-            switch_dev_link(dev_info.rf_channel);
-        }
-    }
-
-    // Win or Mac
-    if (dial_scan_sys) {
-        if (dev_info.sys_sw_state != SYS_SW_MAC) {
-            default_layer_set(1 << 0);
-            dev_info.sys_sw_state = SYS_SW_MAC;
-            keymap_config.nkro    = 0;
-            break_all_key();
-        }
-    } else {
-        if (dev_info.sys_sw_state != SYS_SW_WIN) {
-            //f_sys_show = 1;
-            default_layer_set(1 << 2);
-            dev_info.sys_sw_state = SYS_SW_WIN;
-            keymap_config.nkro    = 1;
-            break_all_key();
-        }
-    }
-}
 }
 
 /**
@@ -381,16 +398,23 @@ void timer_pro(void) {
     }
 
     // step 10ms
-    if (timer_elapsed32(interval_timer) < 10)
+    if (timer_elapsed32(interval_timer) < 10) {
         return;
-    else
+    } else {
         interval_timer = timer_read32();
+    }
 
-    if (rf_link_show_time < RF_LINK_SHOW_TIME) rf_link_show_time++;
+    if (rf_link_show_time < RF_LINK_SHOW_TIME) {
+        rf_link_show_time++;
+    }
 
-    if (no_act_time < 0xffff) no_act_time++;
+    if (no_act_time < 0xffff) {
+        no_act_time++;
+    }
 
-    if (rf_linking_time < 0xffff) rf_linking_time++;
+    if (rf_linking_time < 0xffff) {
+        rf_linking_time++;
+    }
 }
 
 /**

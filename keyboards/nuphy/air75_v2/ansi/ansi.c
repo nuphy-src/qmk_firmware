@@ -19,32 +19,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ansi.h"
 #include "usb_main.h"
 
-extern bool f_rf_sw_press;
-extern bool f_sleep_show;
-extern bool f_dev_reset_press;
-extern bool f_bat_num_show;
-extern bool f_rgb_test_press;
-extern bool f_bat_hold;
-extern uint16_t  no_act_time;
-extern uint8_t   rf_sw_temp;
-extern uint16_t  rf_sw_press_delay;
-extern uint16_t  rf_linking_time;
-extern kb_config_t kb_config;
+extern bool            f_rf_sw_press;
+extern bool            f_sleep_show;
+extern bool            f_dev_reset_press;
+extern bool            f_bat_num_show;
+extern bool            f_rgb_test_press;
+extern bool            f_bat_hold;
+extern uint16_t        no_act_time;
+extern uint8_t         rf_sw_temp;
+extern uint16_t        rf_sw_press_delay;
+extern uint16_t        rf_linking_time;
+extern kb_config_t     kb_config;
 extern DEV_INFO_STRUCT dev_info;
-
 
 /* qmk process record */
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-    if(!process_record_user(keycode, record)){
+    if (!process_record_user(keycode, record)) {
         return false;
     }
-    no_act_time = 0;
+    no_act_time     = 0;
     rf_linking_time = 0;
 
     switch (keycode) {
         case RF_DFU:
             if (record->event.pressed) {
-                if (dev_info.link_mode != LINK_USB) return false;
+                if (dev_info.link_mode != LINK_USB) {
+                    return false;
+                }
                 uart_send_cmd(CMD_RF_DFU, 10, 20);
             }
             return false;
@@ -197,9 +198,12 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 
         case SLEEP_MODE:
             if (record->event.pressed) {
-                if(kb_config.sleep_enable) kb_config.sleep_enable = false;
-                else kb_config.sleep_enable = true;
-                f_sleep_show       = 1;
+                if (kb_config.sleep_enable) {
+                    kb_config.sleep_enable = false;
+                } else {
+                    kb_config.sleep_enable = true;
+                }
+                f_sleep_show = 1;
                 eeconfig_update_kb_datablock(&kb_config);
             }
             return false;
@@ -224,24 +228,21 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-
-bool rgb_matrix_indicators_kb(void)
-{
-    if(!rgb_matrix_indicators_user()){
+bool rgb_matrix_indicators_kb(void) {
+    if (!rgb_matrix_indicators_user()) {
         return false;
     }
-    if(f_bat_num_show) {
+    if (f_bat_num_show) {
         num_led_show();
     }
 
     // fix power-on brightness is abnormal
-    rgb_matrix_set_color(RGB_MATRIX_LED_COUNT-1, 0, 0, 0);
+    rgb_matrix_set_color(RGB_MATRIX_LED_COUNT - 1, 0, 0, 0);
     return true;
 }
 
 /* qmk keyboard post init */
 void keyboard_post_init_kb(void) {
-
     gpio_init();
     rf_uart_init();
     wait_ms(500);
@@ -255,7 +256,6 @@ void keyboard_post_init_kb(void) {
 
 /* qmk housekeeping task */
 void housekeeping_task_kb(void) {
-
     timer_pro();
 
     uart_receive_pro();
