@@ -33,23 +33,26 @@ uint8_t uart_send_cmd(uint8_t cmd, uint8_t ack_cnt, uint8_t delayms);
  * @brief  Sleep Handle.
  */
 void sleep_handle(void) {
-    static uint32_t delay_step_timer = 0;
+    static uint32_t delay_step_timer     = 0;
     static uint8_t  usb_suspend_debounce = 0;
-    static uint32_t rf_disconnect_time = 0;
+    static uint32_t rf_disconnect_time   = 0;
 
     /* 50ms interval */
-    if (timer_elapsed32(delay_step_timer) < 50) return;
+    if (timer_elapsed32(delay_step_timer) < 50) {
+        return;
+    }
     delay_step_timer = timer_read32();
 
     // sleep process
     if (f_goto_sleep) {
         f_goto_sleep = 0;
 
-        if(kb_config.sleep_enable) {
-            if (dev_info.rf_state == RF_CONNECT)
+        if (kb_config.sleep_enable) {
+            if (dev_info.rf_state == RF_CONNECT) {
                 uart_send_cmd(CMD_SET_CONFIG, 5, 5);
-            else
+            } else {
                 uart_send_cmd(CMD_SLEEP, 5, 5);
+            }
 
             // power off LED
             gpio_set_pin_output_push_pull(DC_BOOST_PIN);
@@ -82,8 +85,9 @@ void sleep_handle(void) {
     }
 
     // sleep check
-    if (f_goto_sleep || f_wakeup_prepare)
+    if (f_goto_sleep || f_wakeup_prepare) {
         return;
+    }
     if (dev_info.link_mode == LINK_USB) {
         if (USB_DRIVER.state == USB_SUSPENDED) {
             usb_suspend_debounce++;
@@ -105,7 +109,7 @@ void sleep_handle(void) {
         rf_disconnect_time++;
         if (rf_disconnect_time > 5 * 20) {
             rf_disconnect_time = 0;
-            f_goto_sleep = 1;
+            f_goto_sleep       = 1;
         }
     }
 }

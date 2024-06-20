@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#include "side.h"
+
 #define LIGHT_TAB_LEN           101
 #define WAVE_TAB_LEN            112
 #define BREATHE_TAB_LEN         128
@@ -572,4 +574,39 @@ const uint8_t colour_lib[9][3] =
     {0x80, 0x00, 0xff},
     {0xc0, 0xc0, 0xff},
     {0x00, 0x00, 0x00},
+};
+
+const uint8_t side_speed_tab[5][5] = {
+    [SIDE_WAVE]   = {10, 14, 20, 28, 38}, //
+    [SIDE_MIX]    = {10, 14, 20, 28, 38}, //
+    [SIDE_STATIC] = {50, 50, 50, 50, 50}, //
+    [SIDE_BREATH] = {10, 14, 20, 28, 38}, //
+    [SIDE_OFF]    = {50, 50, 50, 50, 50}, //
+};
+
+const uint8_t side_light_tab[6] = {
+    0,   //
+    22,  //
+    34,  //
+    55,  //
+    79,  //
+    106, //
+};
+
+const uint8_t side_led_index_tab[SIDE_LINE][2] = {
+    {5, 6},  //
+    {4, 7},  //
+    {3, 8},  //
+    {2, 9},  //
+    {1, 10}, //
+    {0, 11}, //
+};
+
+const uint8_t bat_percent_tab[6][3] = {
+    {0xff, 0x00, 0x00},
+    {0xff, 0x66, 0x00},
+    {0xff, 0xcc, 0x00},
+    {0xcc, 0xff, 0x00},
+    {0x66, 0xff, 0x00},
+    {0x00, 0xff, 0x00},
 };
