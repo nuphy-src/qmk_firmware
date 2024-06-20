@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 kb_config_t     kb_config;
 DEV_INFO_STRUCT dev_info = {
-    .rf_baterry = 100,
+    .rf_battery = 100,
     .link_mode  = LINK_USB,
     .rf_state   = RF_IDLE,
 };
@@ -59,15 +59,15 @@ extern uint8_t            side_rgb;
 extern uint8_t            side_colour;
 
 /**
- * @brief  gpio initial.
+ * @brief  Initialize GPIO.
  */
 void gpio_init(void) {
-    /* enable led power driver  */
+    /* enable LED power driver  */
     gpio_set_pin_output_push_pull(DRIVER_LED_CS_PIN);
     gpio_set_pin_output_push_pull(DRIVER_SIDE_CS_PIN);
     gpio_write_pin_low(DRIVER_LED_CS_PIN);
     gpio_write_pin_low(DRIVER_SIDE_CS_PIN);
-    /* set side led pin output low */
+    /* set side LED pin output low */
     gpio_set_pin_output_push_pull(DRIVER_SIDE_PIN);
     gpio_write_pin_low(DRIVER_SIDE_PIN);
     /* config RF module pin */
@@ -82,7 +82,7 @@ void gpio_init(void) {
     /* config dial switch pin */
     gpio_set_pin_input_high(DEV_MODE_PIN);
     gpio_set_pin_input_high(SYS_MODE_PIN);
-    /* open led DC driver */
+    /* open LED DC driver */
     gpio_set_pin_output_push_pull(DC_BOOST_PIN);
     gpio_write_pin_high(DC_BOOST_PIN);
 }
@@ -118,7 +118,7 @@ void long_press_key(void) {
         rf_sw_press_delay = 0;
     }
 
-    // The device is restored to factory Settings
+    // The device is restored to factory settings
     if (f_dev_reset_press) {
         dev_reset_press_delay++;
         if (dev_reset_press_delay >= DEV_RESET_PRESS_DELAY) {
@@ -399,7 +399,7 @@ void timer_pro(void) {
 void londing_eeprom_data(void) {
     eeconfig_read_kb_datablock(&kb_config);
     if (kb_config.default_brightness_flag != 0xA5) {
-        /* first power on, set rgb matrix brightness at middle level*/
+        /* upon first power on, set RGB matrix brightness to middle level */
         rgb_matrix_sethsv(255, 255, RGB_MATRIX_MAXIMUM_BRIGHTNESS - RGB_MATRIX_VAL_STEP * 2);
         kb_config.default_brightness_flag = 0xA5;
         kb_config.ee_side_mode            = side_mode;

@@ -51,7 +51,7 @@ void sleep_handle(void) {
             else
                 uart_send_cmd(CMD_SLEEP, 5, 5);
 
-            // power off led
+            // power off LED
             gpio_set_pin_output_push_pull(DC_BOOST_PIN);
             gpio_write_pin_low(DC_BOOST_PIN);
 

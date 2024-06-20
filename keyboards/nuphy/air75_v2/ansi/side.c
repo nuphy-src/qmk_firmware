@@ -89,7 +89,7 @@ void side_ws2812_setleds(rgb_led_t *ledarray, uint16_t leds);
 void rgb_matrix_update_pwm_buffers(void);
 
 /**
- * @brief  side leds set color vaule.
+     * @brief  side leds set color value.
  * @param  index: index of side_leds[].
  * @param  ...
  */
@@ -111,7 +111,7 @@ void side_rgb_refresh(void) {
  * @param  dir: 0 - decrease, 1 - increase.
  * @note  save to eeprom.
  */
-void side_light_contol(uint8_t dir) {
+void side_light_control(uint8_t dir) {
     if (dir) {
         if (side_light > SIDE_BRIGHT_MAX) {
             return;
@@ -132,7 +132,7 @@ void side_light_contol(uint8_t dir) {
  * @param  dir: 0 - decrease, 1 - increase.
  * @note  save to eeprom.
  */
-void side_speed_contol(uint8_t dir) {
+void side_speed_control(uint8_t dir) {
     if ((side_speed) > SIDE_SPEED_MAX) (side_speed) = SIDE_SPEED_MAX / 2;
 
     if (dir) {
@@ -588,7 +588,7 @@ void bat_num_led(uint8_t bat_percent)
 void num_led_show(void)
 {
     static uint8_t num_bat_temp         = 0;
-    num_bat_temp         = dev_info.rf_baterry;
+    num_bat_temp         = dev_info.rf_battery;
     bat_num_led(num_bat_temp);
 }
 
@@ -659,7 +659,7 @@ void bat_led_show(void) {
         f_init        = 0;
         bat_show_time = timer_read32();
         charge_state  = dev_info.rf_charge;
-        bat_percent   = dev_info.rf_baterry;
+        bat_percent   = dev_info.rf_battery;
     }
 
     if (charge_state != dev_info.rf_charge) {
@@ -680,13 +680,13 @@ void bat_led_show(void) {
         if (charge_state == 0x03) {
             bat_show_breath = true;
         } else if (charge_state & 0x01) {
-            dev_info.rf_baterry = 100;
+            dev_info.rf_battery = 100;
         }
     }
 
-    if (bat_percent != dev_info.rf_baterry) {
+    if (bat_percent != dev_info.rf_battery) {
         if (timer_elapsed32(bat_per_debounce) > 1000) {
-            bat_percent = dev_info.rf_baterry;
+            bat_percent = dev_info.rf_battery;
         }
     } else {
         bat_per_debounce = timer_read32();
