@@ -253,6 +253,7 @@ void RF_Protocol_Receive(void) {
 
                     dev_info.rf_charge = Usart_Mgr.RXDBuf[7];
 
+
                     if (Usart_Mgr.RXDBuf[8] <= 100) {
                         dev_info.rf_battery = Usart_Mgr.RXDBuf[8];
                     }

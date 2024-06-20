@@ -39,6 +39,7 @@ typedef enum {
 
 } TYPE_RX_STATE;
 
+
 #define RF_IDLE 0
 #define RF_PAIRING 1
 #define RF_LINKING 2

@@ -43,7 +43,7 @@ void side_ws2812_setleds(rgb_led_t *ledarray, uint16_t leds);
 void rgb_matrix_update_pwm_buffers(void);
 
 /**
- * @brief  side leds set color vaule.
+     * @brief  side leds set color value.
  * @param  index: index of side_leds[].
  * @param  ...
  */
@@ -90,7 +90,6 @@ void side_speed_control(uint8_t dir) {
     if ((side_speed) > SIDE_SPEED_MAX) {
         (side_speed) = SIDE_SPEED_MAX / 2;
     }
-
     if (dir) {
         if ((side_speed)) {
             side_speed--;
@@ -579,6 +578,7 @@ void bat_num_led(uint8_t bat_percent) {
         rgb_matrix_set_color(29 - i, r, g, b);
     }
 }
+
 
 void num_led_show(void) {
     static uint8_t num_bat_temp = 0;
