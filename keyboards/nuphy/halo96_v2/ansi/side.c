@@ -993,7 +993,6 @@ void bat_percent_led(uint8_t bat_percent)
     }
 }
 
-bool low_bat_flag = 0;
 /**
  * @brief  battery state indicate
  */
