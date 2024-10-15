@@ -18,14 +18,14 @@ static bool game_mode(effect_params_t* params) {
     rgb_matrix_set_color(0, rgb.r, rgb.g, rgb.b);       // ESC
 
     rgb_matrix_set_color(39, rgb.r, rgb.g, rgb.b);      // W
-    rgb_matrix_set_color(56, rgb.r, rgb.g, rgb.b);      // D
+    rgb_matrix_set_color(56, rgb.r, rgb.g, rgb.b);      // A
     rgb_matrix_set_color(57, rgb.r, rgb.g, rgb.b);      // S
-    rgb_matrix_set_color(58, rgb.r, rgb.g, rgb.b);      // A
+    rgb_matrix_set_color(58, rgb.r, rgb.g, rgb.b);      // D
 
     rgb_matrix_set_color(83, rgb.r, rgb.g, rgb.b);      // up
-    rgb_matrix_set_color(94, rgb.r, rgb.g, rgb.b);      // right
+    rgb_matrix_set_color(94, rgb.r, rgb.g, rgb.b);      // left
     rgb_matrix_set_color(95, rgb.r, rgb.g, rgb.b);      // down
-    rgb_matrix_set_color(96, rgb.r, rgb.g, rgb.b);      // left
+    rgb_matrix_set_color(96, rgb.r, rgb.g, rgb.b);      // right
 
     return rgb_matrix_check_finished_leds(led_max);
 }
