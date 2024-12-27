@@ -420,7 +420,7 @@ void timer_pro(void) {
  * @brief  londing eeprom data.
  */
 void londing_eeprom_data(void) {
-    eeconfig_read_kb_datablock(&user_config);
+    eeconfig_read_user_datablock(&user_config);
     if (user_config.default_brightness_flag != 0xA5) {
         /* first power on, set rgb matrix brightness at middle level*/
         rgb_matrix_sethsv(255, 255, RGB_MATRIX_MAXIMUM_BRIGHTNESS - RGB_MATRIX_VAL_STEP * 2);

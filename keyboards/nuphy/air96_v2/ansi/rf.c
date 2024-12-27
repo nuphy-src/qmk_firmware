@@ -195,6 +195,9 @@ void RF_Protocol_Receive(void) {
         sync_lost = 0;
 
         if (Usart_Mgr.RXDLen > 4) {
+            if((Usart_Mgr.RXDLen - 5) != RX_LEN) 
+                return;
+
             for (i = 0; i < RX_LEN; i++)
                 check_sum += Usart_Mgr.RXDBuf[4 + i];
 
@@ -206,6 +209,11 @@ void RF_Protocol_Receive(void) {
             if (Usart_Mgr.RXDBuf[2] == 0xA0) {
                 f_uart_ack = 1;
             }
+            else {
+                return;
+            }
+        } else {
+            return;
         }
 
         switch (RX_CMD) {
