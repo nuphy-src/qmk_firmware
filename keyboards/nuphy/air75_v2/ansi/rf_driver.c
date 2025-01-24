@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "host_driver.h"
 #include "rf_driver.h"
+#include "usb_device_state.h"
 #include "host.h"
 #include "ansi.h"
 
@@ -43,12 +44,12 @@ static uint8_t rf_keyboard_leds(void) {
 }
 
 static void rf_send_keyboard(report_keyboard_t *report) {
-    keyboard_protocol = 1;
+    usb_device_state_set_protocol(USB_PROTOCOL_REPORT);
     uart_send_report_keyboard(report);
 }
 
 static void rf_send_nkro(report_nkro_t *report) {
-    keyboard_protocol = 1;
+    usb_device_state_set_protocol(USB_PROTOCOL_REPORT);
     uart_send_report_nkro(report);
 }
 
