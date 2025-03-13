@@ -638,6 +638,13 @@ ifeq ($(strip $(VIA_ENABLE)), yes)
     TRI_LAYER_ENABLE := yes
 endif
 
+ifeq ($(strip $(SIGNALRGB_ENABLE)), yes)
+    DYNAMIC_KEYMAP_ENABLE := yes
+    RAW_ENABLE := yes
+    BOOTMAGIC_ENABLE := yes
+    TRI_LAYER_ENABLE := yes
+endif
+
 VALID_CUSTOM_MATRIX_TYPES:= yes lite no
 
 CUSTOM_MATRIX ?= no
