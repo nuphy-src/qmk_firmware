@@ -2,7 +2,7 @@ export function Name() { return "NuPhy Air96 v2 ANSI QMK Keyboard"; }
 export function Version() { return "1.1.9"; }
 export function VendorId() { return 0x19F5; }
 export function ProductId() { return 0x3266; }
-export function Publisher() { return "WhirlwindFX"; }
+export function Publisher() { return "ZZM"; }
 export function Documentation() { return "qmk/srgbmods-qmk-firmware"; }
 export function DeviceType() { return "keyboard"; }
 export function Size() { return [19, 6]; }
