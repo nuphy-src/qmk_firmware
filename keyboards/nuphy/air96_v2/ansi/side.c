@@ -299,7 +299,7 @@ void sys_led_show(void)
 {
     if (dev_info.link_mode == LINK_USB) {
         if (host_keyboard_led_state().caps_lock) {
-            set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
+            set_left_rgb(0X00, SIDE_BLINK_LIGHT / 2, SIDE_BLINK_LIGHT / 2);
         }
         if (!host_keyboard_led_state().num_lock) {
             set_right_rgb(0X00, SIDE_BLINK_LIGHT / 2, SIDE_BLINK_LIGHT / 2);
