@@ -1,11 +1,11 @@
-export function Name() { return "NuPhy Air96 v2 ANSI QMK Keyboard"; }
+export function Name() { return "NuPhy Air75 V2 QMK ANSI Keyboard"; }
 export function Version() { return "1.1.9"; }
-export function VendorId() { return 0x19F5; }
-export function ProductId() { return 0x3266; }
+export function VendorId() { return 0x19f5; }
+export function ProductId() { return 0x3246; }
 export function Publisher() { return "ZZM"; }
 export function Documentation() { return "qmk/srgbmods-qmk-firmware"; }
 export function DeviceType() { return "keyboard"; }
-export function Size() { return [73, 11]; }
+export function Size() { return [61, 6]; }
 export function DefaultPosition(){return [10, 100]; }
 export function DefaultScale(){return 8.0;}
 /* global
@@ -26,30 +26,30 @@ export function ControllableParameters() {
 //Plugin Version: Built for Protocol V1.0.6
 
 const vKeys = [
-	0,   1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, //19
-	19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,     33, 34, 35, 36, //18
-	37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,     51, 52, 53, 54, //18
-	55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68,     69, 70, 		//16
-	71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82,     83,     84, 85, 86, 87, //17
-	88, 89, 90, 			91,         92, 93, 94, 95, 96,     97, 98, 99		//12
+	 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,		//16
+	16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,     30, //15
+	31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,	44,     45, //15
+	46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,         58, 59,		//14
+	60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,	71,	        72,	73,		//14
+	74, 75, 76, 			77, 			78, 79, 80, 81, 82, 83		//10
 ];
 
 const vKeyNames = [
-	"Esc", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "Print", "Del",			"Home", "End", "Page Up", "Page Down", 			//19
-	"`", "1",  "2", "3", "4", "5",  "6", "7", "8", "9", "0",  "-",   "+", "Backspace",							"NumLock", "Num /", "Num *", "Num -",			//18
-	"Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\",									"Num 7", "Num 8", "Num 9", "Num +",				//18
-	"CapsLock", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "Enter",									"Num 4", "Num 5", "Num 6",						//16
-	"Left Shift", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Right Shift", "Up Arrow",					"Num 1", "Num 2", "Num 3", "Num Enter",		  	//17
-	"Left Ctrl", "Left Win", "Left Alt", "Space", "Right Alt", "Fn", "LeftCtrl", "Left Arrow",  "Down Arrow", 	"Right Arrow", "Num 0", "Num .",		  		//12
+	"Esc", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "Print Screen", "Insert", "Del",			//16
+	"`", "1",  "2", "3", "4", "5",  "6", "7", "8", "9", "0",  "-",   "+",  "Backspace",	"Page Up",								//15
+	"Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\", "Page Down",										//15
+	"CapsLock", "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "Enter", "Home",											//14
+	"Left Shift", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", "Right Shift", "Up Arrow", "End",							//14
+	"Left Ctrl", "Left Win", "Left Alt", "Space", "Right Alt", "Fn", "Right Ctrl", "Left Arrow",  "Down Arrow", "Right Arrow", 	//10
 ];
 
 const vKeyPositions = [
-	[0, 0], [4, 0], [8, 0], [12, 0], [16, 0], [20, 0], [24, 0], [28, 0], [32, 0], [36, 0], [40, 0], [44, 0], [48, 0], [52, 0], [56, 0], [60, 0], [64, 0], [68, 0], [72, 0], 	//19
-	[0, 2], [4, 2], [8, 2], [12, 2], [16, 2], [20, 2], [24, 2], [28, 2], [32, 2], [36, 2], [40, 2], [44, 2], [48, 2],     [54, 2], 		[60, 2], [64, 2], [68, 2], [72, 2], 	//18
-	[0, 4],    [6, 4], [10, 4], [14, 4], [18, 4], [22, 4], [26, 4], [30, 4], [34, 4], [38, 4], [42, 4], [46, 4], [50, 4],     [55, 4], 	[60, 4], [64, 4], [68, 4], [72, 5], 	//18
-	[0, 6], 	  [7, 6], [11, 6], [15, 6], [19, 6], [23, 6], [27, 6], [31, 6], [35, 6], [39, 6], [43, 6], [47, 6], 	  [54, 6],		[60, 6], [64, 6], [68, 6],		  		//16
-	[0, 8],			  [9, 8], [13, 8], [17, 8], [21, 8], [25, 8], [29, 8], [33, 8], [37, 8], [41, 8], [45, 8], 	  [51, 8],     [56, 8], [60, 8], [64, 8], [68, 8], [72, 9], 	//17
-	[0,10],   [5,10],  [10,10],			  			       [26,10],				   	       [40,10], [44,10], [48,10], [52,10], [56,10], [60,10], [64,10], [68,10],		  		//12
+	[ 0, 0], [ 4, 0], [ 8, 0], [12, 0], [16, 0], [20, 0], [24, 0], [28, 0], [32, 0], [36, 0], [40, 0], [44, 0], [48, 0], [52, 0], [56, 0], [60, 0], //16
+	[ 0, 1], [ 4, 1], [ 8, 1], [12, 1], [16, 1], [20, 1], [24, 1], [28, 1], [32, 1], [36, 1], [40, 1], [44, 1], [48, 1], 	 [54, 1],	   [60, 1], //15
+	[ 0, 2], 	 [ 6, 2], [10, 2], [14, 2], [18, 2], [22, 2], [26, 2], [30, 2], [34, 2], [38, 2], [42, 2], [46, 2], [50, 2],   [55, 2],    [60, 2], //15
+	[ 0, 3], 	    [ 7, 3], [11, 3], [15, 3], [19, 3], [23, 3], [27, 3], [31, 3], [35, 3], [39, 3], [43, 3], [47, 3],	    [53, 3], 	   [60, 3], //14
+	[ 0, 4], 		    [ 9, 4], [13, 4], [17, 4], [21, 4], [25, 4], [29, 4], [33, 4], [37, 4], [41, 4], [45, 4],     [51, 4],	  [56, 4], [60, 4], //14
+	[ 0, 5],   [ 5, 5],   [ 10, 5],					          [26, 5],					      [40, 5], [44, 5], [48, 5], [52, 5], [56, 5], [60, 5], //10
 ];
 
 let LEDCount = 0;
@@ -98,7 +98,7 @@ export function Shutdown(SystemSuspending) {
 		}
 	}
 
-	vKeysArrayCount(); // For debugging array counts
+	//vKeysArrayCount(); // For debugging array counts
 
 }
 
@@ -326,4 +326,9 @@ function hexToRgb(hex) {
 
 export function Validate(endpoint) {
 	return endpoint.interface === 1;
+}
+
+export function ImageUrl()
+{
+    return "https://raw.githubusercontent.com/SRGBmods/QMK-Images/main/images/NuPhy_Air75v2.png";
 }
