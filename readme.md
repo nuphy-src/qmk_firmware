@@ -1,6 +1,6 @@
 # Project forked from nuphy-src/qmk_firmware
 
-## improvements:
+## Improvements:
 
 1. Added SignalRGB support for Nuphy Keyboards using qmk firmware. To enable SignalRGB, you should set "SIGNALRGB_ENABLE = yes" in rules.mk.
 2. Fixed some keymapping errors in nuphy keyboard plugin for Air96 V2 from [SignalRGB](https://github.com/SRGBmods/qmk-plugins/blob/main/Nuphy/NuPhy_Air96v2_QMK_ANSI_Keyboard.js). Plugins are saved in [SRGB_qmk_plugins](/SRGB_qmk_plugins). You should copy .js file to C:\Users\\[YOUR USERNAME]\Documents\WhirlwindFX\Plugins.
