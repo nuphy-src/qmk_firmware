@@ -3,8 +3,10 @@
 ## improvements:
 
 1. Added SignalRGB support for Nuphy Keyboards using qmk firmware.
-2. Fixed some keymapping errors in nuphy keyboard plugin for Air96V2/Air75V2 from [SignalRGB](https://github.com/SRGBmods/qmk-plugins/blob/main/Nuphy/NuPhy_Air96v2_QMK_ANSI_Keyboard.js). Plugins are saved in [SRGB_qmk_plugins](/SRGB_qmk_plugins). You should copy .js file to C:\Users\\[YOUR USERNAME]\Documents\WhirlwindFX\Plugins.
-3. Add SignalRGB plugin for Air60 v2.
+2. Fixed some keymapping errors in nuphy keyboard plugin for Air96 V2/Air75 V2 from [SignalRGB](https://github.com/SRGBmods/qmk-plugins/blob/main/Nuphy/NuPhy_Air96v2_QMK_ANSI_Keyboard.js). Plugins are saved in [SRGB_qmk_plugins](/SRGB_qmk_plugins). You should copy .js file to C:\Users\\[YOUR USERNAME]\Documents\WhirlwindFX\Plugins.
+3. Added SignalRGB plugin for Air60 v2.
+4. Added reverse NumLock indicator for Air96 V2.
+5. Changed battery indicator for Air96 v2: Led appears yellow when 50-95%, rather than orange.
 
 ## Note: SignalRGB / VIA Issue
 (From [document](https://docs.signalrgb.com/qmk) provided by SignalRGB)
