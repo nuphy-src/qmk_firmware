@@ -1,4 +1,4 @@
-# Project forked from nuphy-src/qmk_firmware
+# QMK Firmware with SignalRGB Support for Nuphy
 
 ## Improvements:
 
