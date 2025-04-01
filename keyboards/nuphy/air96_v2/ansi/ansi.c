@@ -400,6 +400,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     if(!process_record_user(keycode, record)){
         return false;
     }
+    no_act_time = 0;
     switch (keycode) {
         case RF_DFU:
             if (record->event.pressed) {
