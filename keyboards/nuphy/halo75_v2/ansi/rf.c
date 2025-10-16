@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ansi.h"
 #include "uart.h"  // qmk uart.h
 #include "rf_driver.h"
+#include "usb_device_state.h"
 
 USART_MGR_STRUCT Usart_Mgr;
 #define RX_SBYTE    Usart_Mgr.RXDBuf[0]
@@ -134,7 +135,7 @@ void uart_send_report_func(void)
     static uint32_t interval_timer = 0;
 
     if (dev_info.link_mode == LINK_USB) return;
-    keyboard_protocol          = 1;
+    usb_device_state_set_protocol(USB_PROTOCOL_REPORT);
 
     if (timer_elapsed32(interval_timer) > 300) {
         interval_timer = timer_read32();
@@ -210,7 +211,7 @@ void RF_Protocol_Receive(void) {
         sync_lost = 0;
 
         if (Usart_Mgr.RXDLen > 4) {
-            if((Usart_Mgr.RXDLen - 5) != RX_LEN) 
+            if((Usart_Mgr.RXDLen - 5) != RX_LEN)
                 return;
 
             for (i = 0; i < RX_LEN; i++)
@@ -381,8 +382,8 @@ uint8_t uart_send_cmd(uint8_t cmd, uint8_t wait_ack, uint8_t delayms) {
         }
         case CMD_SET_NAME: {
             Usart_Mgr.TXDBuf[3]  = 18;
-            Usart_Mgr.TXDBuf[4]  = 1;  
-            Usart_Mgr.TXDBuf[5]  = 16;   
+            Usart_Mgr.TXDBuf[4]  = 1;
+            Usart_Mgr.TXDBuf[5]  = 16;
             Usart_Mgr.TXDBuf[6]  = 'N';
             Usart_Mgr.TXDBuf[7]  = 'u';
             Usart_Mgr.TXDBuf[8]  = 'P';
@@ -395,10 +396,10 @@ uint8_t uart_send_cmd(uint8_t cmd, uint8_t wait_ack, uint8_t delayms) {
             Usart_Mgr.TXDBuf[15] = 'o';
             Usart_Mgr.TXDBuf[16] = '7';
             Usart_Mgr.TXDBuf[17] = '5';
-            Usart_Mgr.TXDBuf[18] = ' ';   
-            Usart_Mgr.TXDBuf[19] = 'V';   
-            Usart_Mgr.TXDBuf[20] = '2';   
-            Usart_Mgr.TXDBuf[21] = '-';   
+            Usart_Mgr.TXDBuf[18] = ' ';
+            Usart_Mgr.TXDBuf[19] = 'V';
+            Usart_Mgr.TXDBuf[20] = '2';
+            Usart_Mgr.TXDBuf[21] = '-';
             Usart_Mgr.TXDBuf[22] = get_checksum(Usart_Mgr.TXDBuf + 4, Usart_Mgr.TXDBuf[3]);  // sum
             break;
         }
@@ -406,7 +407,7 @@ uint8_t uart_send_cmd(uint8_t cmd, uint8_t wait_ack, uint8_t delayms) {
         case CMD_SET_24G_NAME: {
             Usart_Mgr.TXDBuf[3]  = 46;
             Usart_Mgr.TXDBuf[4]  = 46;
-            Usart_Mgr.TXDBuf[5]  = 3;      
+            Usart_Mgr.TXDBuf[5]  = 3;
             Usart_Mgr.TXDBuf[6]  = 'N';
             Usart_Mgr.TXDBuf[8]  = 'u';
             Usart_Mgr.TXDBuf[10] = 'P';
@@ -552,17 +553,17 @@ const uint8_t battery_acfg_tab[BAT_CFG_LEN] = {
     0x69, 0x79, 0x8D, 0xA4, 0xB7, 0xC8, 0xA4, 0x16,
     0x20, 0x00, 0xA7, 0x10, 0x00, 0xB1, 0x28, 0x00,
     0x00, 0x00, 0x64, 0x43, 0xC0, 0x53, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x81,  
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x81,
 };
 
-void UART_Send_BatCfg(void) 
+void UART_Send_BatCfg(void)
 {
     uint8_t buf[128] = {0};
 
-    buf[0] = UART_HEAD;       
-    buf[1] = CMD_WBAT_CFG; 
-    buf[2] = 0x01;           
-    buf[3] = BAT_CFG_LEN;   
+    buf[0] = UART_HEAD;
+    buf[1] = CMD_WBAT_CFG;
+    buf[2] = 0x01;
+    buf[3] = BAT_CFG_LEN;
     memcpy(&buf[4], battery_acfg_tab, BAT_CFG_LEN);
     buf[4 + BAT_CFG_LEN] = get_checksum(&buf[4], BAT_CFG_LEN);
     UART_Send_Bytes(buf, BAT_CFG_LEN + 5);
@@ -580,22 +581,22 @@ void UART_Send_Bytes(uint8_t *Buffer, uint32_t Length) {
         {
             writePinLow(NRF_WAKEUP_PIN);
             wait_us(50);
-        
+
             uart_transmit(Buffer, Length);
-        
+
             wait_us(50 + Length * 32);
-            writePinHigh(NRF_WAKEUP_PIN);  
-        
-            wait_us(200);      
-        }        
+            writePinHigh(NRF_WAKEUP_PIN);
+
+            wait_us(200);
+        }
     } else {
             writePinLow(NRF_WAKEUP_PIN);
             wait_us(50);
-        
+
             uart_transmit(Buffer, Length);
-        
+
             wait_us(50 + Length * 32);
-            writePinHigh(NRF_WAKEUP_PIN);          
+            writePinHigh(NRF_WAKEUP_PIN);
     }
 }
 
