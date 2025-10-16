@@ -67,6 +67,20 @@ uint8_t side_play_cnt       = 0;
 uint32_t side_play_timer    = 0;
 uint8_t r_temp, g_temp, b_temp;
 
+typedef struct keyb_indicators_t
+{
+    union {
+        struct {
+            uint8_t caps_lock:1;
+            uint8_t num_lock:1;
+            /*
+            uint8_t scroll_lock:1;
+            */
+        };
+        uint8_t indicator_flags;
+    };
+} keyb_indicators_t;
+
 extern DEV_INFO_STRUCT dev_info;
 extern bool f_bat_hold;
 extern user_config_t user_config;
@@ -221,6 +235,20 @@ void set_right_rgb(uint8_t r, uint8_t g, uint8_t b)
 }
 
 /**
+ * @brief  set indicator leds
+ * @param  ...
+ */
+void set_indicator_leds(keyb_indicators_t inds)
+{
+    if (inds.caps_lock) {
+        set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
+    }
+    if (inds.num_lock) {
+        set_right_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
+    }
+}
+
+/**
  * @brief   system switch led show
  */
 void sys_sw_led_show(void)
@@ -293,20 +321,21 @@ void sleep_sw_led_show(void)
 }
 
 /**
- * @brief  host system led indicate.
+ * @brief  show "keyboard indicators" (caps/num/...), these indicators are set from host system
  */
-void sys_led_show(void)
+void keyb_indicators_show(void)
 {
+    keyb_indicators_t inds = { .caps_lock = 0, .num_lock = 0 };
+
     if (dev_info.link_mode == LINK_USB) {
-        if (host_keyboard_led_state().caps_lock) {
-            set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
-        }
+        inds.caps_lock  = (host_keyboard_led_state().caps_lock != 0);
+        inds.num_lock   = (host_keyboard_led_state().num_lock != 0);
+    } else {
+        inds.caps_lock  = ((dev_info.rf_led & 0x02) != 0);
+        inds.num_lock   = ((dev_info.rf_led & 0x01) != 0);
     }
-    else {
-        if (dev_info.rf_led & 0x02) {
-            set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
-        }
-    }
+
+    set_indicator_leds(inds);
 }
 
 /**
@@ -843,6 +872,6 @@ void m_side_led_show(void)
     sleep_sw_led_show();
     sys_sw_led_show();
 
-    sys_led_show();
+    keyb_indicators_show();
     rf_led_show();
 }
