@@ -1,0 +1,2 @@
+VIA_ENABLE = yes
+SIGNALRGB_ENABLE = yes

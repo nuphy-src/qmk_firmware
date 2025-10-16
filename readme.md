@@ -1,3 +1,20 @@
+# QMK Firmware with SignalRGB Support for Nuphy
+
+## Improvements:
+
+1. Added SignalRGB support for Nuphy Keyboards using qmk firmware. To enable SignalRGB, you should set "SIGNALRGB_ENABLE = yes" in rules.mk.
+2. Fixed some keymapping errors in nuphy keyboard plugin for Air96 V2 from [SignalRGB](https://github.com/SRGBmods/qmk-plugins/blob/main/Nuphy/NuPhy_Air96v2_QMK_ANSI_Keyboard.js). Plugins are saved in [SRGB_qmk_plugins](/SRGB_qmk_plugins). You should copy .js file to C:\Users\\[YOUR USERNAME]\Documents\WhirlwindFX\Plugins.
+3. Added SignalRGB plugin for Air60 v2 (untested).
+5. Improved keymap accuracy of SignalRGB plugin for Air75 v2.
+6. Added reverse NumLock indicator for Air96 V2.
+7. Changed battery indicator for Air96 v2: Leds appears yellow when 50-95%, rather than orange.
+
+## Note: SignalRGB / VIA Issue
+(From [document](https://docs.signalrgb.com/qmk) provided by SignalRGB)
+
+Please note that SignalRGB and VIA do not happily run at the same time. You must quit either VIA (or close the browser tab) before running SignalRGB, or close SignalRGB before attempting to use VIA as the raw_hid_recieve solution that both Software(s) use conflict with each other.
+
+---
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)

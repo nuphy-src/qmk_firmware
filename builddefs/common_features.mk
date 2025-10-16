@@ -638,6 +638,12 @@ ifeq ($(strip $(VIA_ENABLE)), yes)
     TRI_LAYER_ENABLE := yes
 endif
 
+ifeq ($(strip $(SIGNALRGB_ENABLE)), yes)
+    RAW_ENABLE := yes
+    SRC += $(QUANTUM_DIR)/signalrgb.c
+    OPT_DEFS += -DSIGNALRGB_ENABLE
+endif
+
 VALID_CUSTOM_MATRIX_TYPES:= yes lite no
 
 CUSTOM_MATRIX ?= no

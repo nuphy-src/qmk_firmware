@@ -301,6 +301,9 @@ void sys_led_show(void)
         if (host_keyboard_led_state().caps_lock) {
             set_left_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
         }
+        if (!host_keyboard_led_state().num_lock) {
+            set_right_rgb(0X00, SIDE_BLINK_LIGHT, SIDE_BLINK_LIGHT);
+        }
     }
     else {
         if (dev_info.rf_led & 0x02) {
@@ -635,10 +638,10 @@ void bat_percent_led(uint8_t bat_percent)
         bat_r = SIDE_BLINK_LIGHT, bat_g = SIDE_BLINK_LIGHT / 2, bat_b = 0;
     } else if (bat_percent <= 70) {
         bat_end_led = 3;
-        bat_r = SIDE_BLINK_LIGHT, bat_g = SIDE_BLINK_LIGHT / 2, bat_b = 0;
+        bat_r = SIDE_BLINK_LIGHT, bat_g = SIDE_BLINK_LIGHT, bat_b = 0;
     } else if (bat_percent <= 95) {
         bat_end_led = 4;
-        bat_r = SIDE_BLINK_LIGHT, bat_g = SIDE_BLINK_LIGHT / 2, bat_b = 0;
+        bat_r = SIDE_BLINK_LIGHT, bat_g = SIDE_BLINK_LIGHT, bat_b = 0;
     } else {
         bat_end_led = 4;
         bat_r = 0, bat_g = SIDE_BLINK_LIGHT, bat_b = 0;
