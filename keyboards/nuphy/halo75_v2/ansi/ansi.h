@@ -31,6 +31,39 @@ enum custom_keycodes {
     SIDE_HUI,
     SIDE_SPI,
     SIDE_SPD,
+
+    BLE_CMD_0,
+    BLE_CMD_1,
+    BLE_CMD_2,
+    BLE_CMD_3,
+    BLE_CMD_4,
+    BLE_CMD_5,
+    BLE_CMD_6,
+    BLE_CMD_7,
+    BLE_CMD_8,
+    BLE_CMD_9,
+    BLE_CMD_10,
+    BLE_CMD_11,
+    BLE_CMD_12,
+    BLE_CMD_13,
+    BLE_CMD_14,
+    BLE_CMD_15,
+    BLE_CMD_16,
+    BLE_CMD_17,
+    BLE_CMD_18,
+    BLE_CMD_19,
+    BLE_CMD_20,
+    BLE_CMD_21,
+    BLE_CMD_22,
+    BLE_CMD_23,
+    BLE_CMD_24,
+    BLE_CMD_25,
+    BLE_CMD_26,
+    BLE_CMD_27,
+    BLE_CMD_28,
+    BLE_CMD_29,
+    BLE_CMD_30,
+    BLE_CMD_31,
 };
 
 extern uint8_t m_sleep_led;
@@ -199,8 +232,10 @@ typedef struct
     uint8_t ee_side_speed;
     uint8_t ee_side_rgb;
     uint8_t ee_side_colour;
-    m_8bit ee_dev_config;
+    m_8bit  ee_dev_config;
+    uint8_t ee_ble_cmd_slot;  // BLE slot used for BLE commands: LINK_BT_1/2/3
 } user_config_t;
 
 extern user_config_t user_config;
 #define f_dev_sleep_enable  user_config.ee_dev_config.bit0
+#define f_ble_cmd_enabled   user_config.ee_dev_config.bit1

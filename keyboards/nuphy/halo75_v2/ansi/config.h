@@ -72,7 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DRIVER_2_LED_TOTAL         64
 #define RGB_MATRIX_LED_COUNT       (DRIVER_1_LED_TOTAL + DRIVER_2_LED_TOTAL)
 
-#define RGB_MATRIX_DEFAULT_MODE     RGB_MATRIX_CUSTOM_position_mode
+#define RGB_MATRIX_DEFAULT_MODE     RGB_MATRIX_NONE
 #define RGB_DEFAULT_COLOUR          168
 
 #define RGB_MATRIX_SLEEP                          // turn off effects when suspended

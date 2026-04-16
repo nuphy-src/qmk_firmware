@@ -1,197 +1,511 @@
 {
-	"name": "NuPhy Halo75",
-	"vendorId": "0x19F5",
-	"productId": "0x32F5",
-	"matrix": {
-		"rows": 6,
-		"cols": 17
-	},
-	"layouts": {
-		"keymap": [
-			["0,0","0,1","0,2","0,3","0,4","0,5","0,6","0,7","0,8","0,9","0,10","0,11","0,12","0,13","0,14","0,15"],
-			["1,0","1,1","1,2","1,3","1,4","1,5","1,6","1,7","1,8","1,9","1,10","1,11","1,12",{"w":2},"1,13","1,15"],
-			[{"w":1.5},"2,0","2,1","2,2","2,3","2,4","2,5","2,6","2,7","2,8","2,9","2,10","2,11","2,12",{"w":1.5},"2,13","2,15"],
-			[{"w":1.75},"3,0","3,1","3,2","3,3","3,4","3,5","3,6","3,7","3,8","3,9","3,10","3,11",{"w":2.25},"3,13","3,15"],
-			[{"w":2.25},"4,0","4,2","4,3","4,4","4,5","4,6","4,7","4,8","4,9","4,10","4,11",{"w":1.75},"4,13","4,14","4,15"],
-			[{"w":1.25},"5,0",{"w":1.25},"5,1",{"w":1.25},"5,2",{"w":6.25},"5,6",{"w":1.25},"5,9",{"w":1.25},"5,10",{"x":0.5},"5,13","5,14","5,15"]
-		]
-	},
-	"menus": [
-	{
-		"label": "Lighting",
-		"content": [
-		{
-			"label": "Backlight",
-			"content": [
-			{
-				"label": "Brightness",
-				"type": "range",
-				"options": [0, 255],
-				"content": ["id_qmk_rgb_matrix_brightness", 3, 1]
-			},
-			{
-				"label": "Effect",
-				"type": "dropdown",
-				"content": ["id_qmk_rgb_matrix_effect", 3, 2],
-				"options": [
-					"All Off",
-					"Solid Color",
-					"Gradient Up/Down",
-					"Gradient Left/Right",
-					"Breathing",
-					"Band Sat.",
-					"Band Val.",
-					"Pinwheel Sat.",
-					"Pinwheel Val.",
-					"Spiral Sat.",
-					"Spiral Val.",
-					"Cycle All",
-					"Cycle Left/Right",
-					"Cycle Up/Down",
-                    "Rainbow Moving Chevron",
-					"Cycle Out/In",
-					"Cycle Out/In Dual",
-					"Cycle Pinwheel",
-					"Cycle Spiral",
-					"Dual Beacon",
-					"Rainbow Beacon",
-					"Rainbow Pinwheels",
-					"Raindrops",
-					"Jellybean Raindrops",
-					"Hue Breathing",
-					"Hue Pendulum",
-					"Hue Wave",
-					"Typing Heatmap",
-					"Digital Rain",
-					"Reactive Simple",
-					"Reactive",
-					"Reactive Wide",
-					"Reactive Multiwide",
-					"Reactive Cross",
-					"Reactive Multicross",
-					"Reactive Nexus",
-					"Reactive MultiNexus",
-					"Splash",
-					"MultiSplash",
-					"Solid Splash",
-					"Solid MultiSplash",
-                    "game_mode",
-                    "position_mode"
-				]
-			},
-			{
-				"showIf": "{id_qmk_rgb_matrix_effect} != 0",
-				"label": "Effect Speed",
-				"type": "range",
-				"options": [0, 255],
-				"content": ["id_qmk_rgb_matrix_effect_speed", 3, 3]
-			},
-			{
-				"showIf": "{id_qmk_rgb_matrix_effect} != 0",
-				"label": "Color",
-				"type": "color",
-				"content": ["id_qmk_rgb_matrix_color", 3, 4]
-			}
-		  ]
-		}
-		]
-	}
-	],
-"keycodes": [
-	"qmk_lighting"
-],
-"customKeycodes": [
-	{
-		"name": "RF\nDFU",
-		"title": "RF DFU"
-	},
-	{
-		"name": "Link\nUSB",
-		"title": "Link USB"
-	},
-	{
-		"name": "Link\nRF",
-		"title": "Link RF"
-	},
-	{
-		"name": "Link\nBLE_1",
-		"title": "Link BLE_1"
-	},
-	{
-		"name": "Link\nBLE_2",
-		"title": "Link BLE_2"
-	},
-	{
-		"name": "Link\nBLE_3",
-		"title": "Link BLE_3"
-	},
-	{
-		"name": "Mac\nTask",
-		"title": "Mac Task"
-	},
-	{
-		"name": "Mac\nSearch",
-		"title": "Mac Search"
-	},
-	{
-		"name": "Mac\nVoice",
-		"title": "Mac Siri Voice"
-	},
-	{
-		"name": "Mac\nConsole",
-		"title": "Mac Console"
-	},
-	{
-		"name": "Mac\nDnt",
-		"title": "Mac Dnt"
-	},
-	{
-		"name": "Print\nWhole",
-		"title": "PrintWhole"
-	},
-	{
-		"name": "Print\nArea",
-		"title": "PrintArea"
-	},
-	{
-		"name": "Dev\nReset",
-		"title": "Device Reset"
-	},
-	{
-		"name": "Sleep\nMode",
-		"title": "Auto Sleep"
-	},
-	{
-		"name": "Bat\nShow",
-		"title": "Battery Show"
-	},
-	{
-		"name": "Side\nLight+",
-		"title": "Side Light +"
-	},
-	{
-		"name": "Side\nLight-",
-		"title": "Side Light -"
-	},
-	{
-		"name": "Side\nMode_A",
-		"title": "Side Next Mode"
-	},
-	{
-		"name": "Side\nMode_B",
-		"title": "Side Next Mode"
-	},
-	{
-		"name": "Side\nColor",
-		"title": "Side Next Color"
-	},
-	{
-		"name": "Side\nFast",
-		"title": "Side Speed +"
-	},
-	{
-		"name": "Side\nSlow",
-		"title": "Side Speed -"
-	}
-]
+  "name": "NuPhy Halo75",
+  "vendorId": "0x19F5",
+  "productId": "0x32F5",
+  "matrix": {
+    "rows": 6,
+    "cols": 17
+  },
+  "layouts": {
+    "keymap": [
+      [
+        "0,0",
+        "0,1",
+        "0,2",
+        "0,3",
+        "0,4",
+        "0,5",
+        "0,6",
+        "0,7",
+        "0,8",
+        "0,9",
+        "0,10",
+        "0,11",
+        "0,12",
+        "0,13",
+        "0,14",
+        "0,15"
+      ],
+      [
+        "1,0",
+        "1,1",
+        "1,2",
+        "1,3",
+        "1,4",
+        "1,5",
+        "1,6",
+        "1,7",
+        "1,8",
+        "1,9",
+        "1,10",
+        "1,11",
+        "1,12",
+        {
+          "w": 2
+        },
+        "1,13",
+        "1,15"
+      ],
+      [
+        {
+          "w": 1.5
+        },
+        "2,0",
+        "2,1",
+        "2,2",
+        "2,3",
+        "2,4",
+        "2,5",
+        "2,6",
+        "2,7",
+        "2,8",
+        "2,9",
+        "2,10",
+        "2,11",
+        "2,12",
+        {
+          "w": 1.5
+        },
+        "2,13",
+        "2,15"
+      ],
+      [
+        {
+          "w": 1.75
+        },
+        "3,0",
+        "3,1",
+        "3,2",
+        "3,3",
+        "3,4",
+        "3,5",
+        "3,6",
+        "3,7",
+        "3,8",
+        "3,9",
+        "3,10",
+        "3,11",
+        {
+          "w": 2.25
+        },
+        "3,13",
+        "3,15"
+      ],
+      [
+        {
+          "w": 2.25
+        },
+        "4,0",
+        "4,2",
+        "4,3",
+        "4,4",
+        "4,5",
+        "4,6",
+        "4,7",
+        "4,8",
+        "4,9",
+        "4,10",
+        "4,11",
+        {
+          "w": 1.75
+        },
+        "4,13",
+        "4,14",
+        "4,15"
+      ],
+      [
+        {
+          "w": 1.25
+        },
+        "5,0",
+        {
+          "w": 1.25
+        },
+        "5,1",
+        {
+          "w": 1.25
+        },
+        "5,2",
+        {
+          "w": 6.25
+        },
+        "5,6",
+        {
+          "w": 1.25
+        },
+        "5,9",
+        {
+          "w": 1.25
+        },
+        "5,10",
+        {
+          "x": 0.5
+        },
+        "5,13",
+        "5,14",
+        "5,15"
+      ]
+    ]
+  },
+  "menus": [
+    {
+      "label": "Lighting",
+      "content": [
+        {
+          "label": "Backlight",
+          "content": [
+            {
+              "label": "Brightness",
+              "type": "range",
+              "options": [
+                0,
+                255
+              ],
+              "content": [
+                "id_qmk_rgb_matrix_brightness",
+                3,
+                1
+              ]
+            },
+            {
+              "label": "Effect",
+              "type": "dropdown",
+              "content": [
+                "id_qmk_rgb_matrix_effect",
+                3,
+                2
+              ],
+              "options": [
+                "All Off",
+                "Solid Color",
+                "Gradient Up/Down",
+                "Gradient Left/Right",
+                "Breathing",
+                "Band Sat.",
+                "Band Val.",
+                "Pinwheel Sat.",
+                "Pinwheel Val.",
+                "Spiral Sat.",
+                "Spiral Val.",
+                "Cycle All",
+                "Cycle Left/Right",
+                "Cycle Up/Down",
+                "Rainbow Moving Chevron",
+                "Cycle Out/In",
+                "Cycle Out/In Dual",
+                "Cycle Pinwheel",
+                "Cycle Spiral",
+                "Dual Beacon",
+                "Rainbow Beacon",
+                "Rainbow Pinwheels",
+                "Raindrops",
+                "Jellybean Raindrops",
+                "Hue Breathing",
+                "Hue Pendulum",
+                "Hue Wave",
+                "Typing Heatmap",
+                "Digital Rain",
+                "Reactive Simple",
+                "Reactive",
+                "Reactive Wide",
+                "Reactive Multiwide",
+                "Reactive Cross",
+                "Reactive Multicross",
+                "Reactive Nexus",
+                "Reactive MultiNexus",
+                "Splash",
+                "MultiSplash",
+                "Solid Splash",
+                "Solid MultiSplash",
+                "game_mode",
+                "position_mode"
+              ]
+            },
+            {
+              "showIf": "{id_qmk_rgb_matrix_effect} != 0",
+              "label": "Effect Speed",
+              "type": "range",
+              "options": [
+                0,
+                255
+              ],
+              "content": [
+                "id_qmk_rgb_matrix_effect_speed",
+                3,
+                3
+              ]
+            },
+            {
+              "showIf": "{id_qmk_rgb_matrix_effect} != 0",
+              "label": "Color",
+              "type": "color",
+              "content": [
+                "id_qmk_rgb_matrix_color",
+                3,
+                4
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "BLE Command",
+      "content": [
+        {
+          "label": "BLE Command",
+          "content": [
+            {
+              "label": "Enable",
+              "type": "toggle",
+              "content": [
+                "id_custom_ble_cmd_enabled",
+                6,
+                1
+              ]
+            },
+            {
+              "label": "BLE Slot",
+              "type": "dropdown",
+              "content": [
+                "id_custom_ble_cmd_slot",
+                6,
+                2
+              ],
+              "options": [
+                "BLE 1",
+                "BLE 2",
+                "BLE 3"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "keycodes": [
+    "qmk_lighting"
+  ],
+  "customKeycodes": [
+    {
+      "name": "RF\nDFU",
+      "title": "RF DFU"
+    },
+    {
+      "name": "Link\nUSB",
+      "title": "Link USB"
+    },
+    {
+      "name": "Link\nRF",
+      "title": "Link RF"
+    },
+    {
+      "name": "Link\nBLE_1",
+      "title": "Link BLE_1"
+    },
+    {
+      "name": "Link\nBLE_2",
+      "title": "Link BLE_2"
+    },
+    {
+      "name": "Link\nBLE_3",
+      "title": "Link BLE_3"
+    },
+    {
+      "name": "Mac\nTask",
+      "title": "Mac Task"
+    },
+    {
+      "name": "Mac\nSearch",
+      "title": "Mac Search"
+    },
+    {
+      "name": "Mac\nVoice",
+      "title": "Mac Siri Voice"
+    },
+    {
+      "name": "Mac\nConsole",
+      "title": "Mac Console"
+    },
+    {
+      "name": "Mac\nDnt",
+      "title": "Mac Dnt"
+    },
+    {
+      "name": "Print\nWhole",
+      "title": "PrintWhole"
+    },
+    {
+      "name": "Print\nArea",
+      "title": "PrintArea"
+    },
+    {
+      "name": "Dev\nReset",
+      "title": "Device Reset"
+    },
+    {
+      "name": "Sleep\nMode",
+      "title": "Auto Sleep"
+    },
+    {
+      "name": "Bat\nShow",
+      "title": "Battery Show"
+    },
+    {
+      "name": "Side\nLight+",
+      "title": "Side Light +"
+    },
+    {
+      "name": "Side\nLight-",
+      "title": "Side Light -"
+    },
+    {
+      "name": "Side\nMode_A",
+      "title": "Side Next Mode"
+    },
+    {
+      "name": "Side\nMode_B",
+      "title": "Side Next Mode"
+    },
+    {
+      "name": "Side\nColor",
+      "title": "Side Next Color"
+    },
+    {
+      "name": "Side\nFast",
+      "title": "Side Speed +"
+    },
+    {
+      "name": "Side\nSlow",
+      "title": "Side Speed -"
+    },
+    {
+      "name": "BLE\nCMD 0",
+      "title": "BLE Command 0"
+    },
+    {
+      "name": "BLE\nCMD 1",
+      "title": "BLE Command 1"
+    },
+    {
+      "name": "BLE\nCMD 2",
+      "title": "BLE Command 2"
+    },
+    {
+      "name": "BLE\nCMD 3",
+      "title": "BLE Command 3"
+    },
+    {
+      "name": "BLE\nCMD 4",
+      "title": "BLE Command 4"
+    },
+    {
+      "name": "BLE\nCMD 5",
+      "title": "BLE Command 5"
+    },
+    {
+      "name": "BLE\nCMD 6",
+      "title": "BLE Command 6"
+    },
+    {
+      "name": "BLE\nCMD 7",
+      "title": "BLE Command 7"
+    },
+    {
+      "name": "BLE\nCMD 8",
+      "title": "BLE Command 8"
+    },
+    {
+      "name": "BLE\nCMD 9",
+      "title": "BLE Command 9"
+    },
+    {
+      "name": "BLE\nCMD 10",
+      "title": "BLE Command 10"
+    },
+    {
+      "name": "BLE\nCMD 11",
+      "title": "BLE Command 11"
+    },
+    {
+      "name": "BLE\nCMD 12",
+      "title": "BLE Command 12"
+    },
+    {
+      "name": "BLE\nCMD 13",
+      "title": "BLE Command 13"
+    },
+    {
+      "name": "BLE\nCMD 14",
+      "title": "BLE Command 14"
+    },
+    {
+      "name": "BLE\nCMD 15",
+      "title": "BLE Command 15"
+    },
+    {
+      "name": "BLE\nCMD 16",
+      "title": "BLE Command 16"
+    },
+    {
+      "name": "BLE\nCMD 17",
+      "title": "BLE Command 17"
+    },
+    {
+      "name": "BLE\nCMD 18",
+      "title": "BLE Command 18"
+    },
+    {
+      "name": "BLE\nCMD 19",
+      "title": "BLE Command 19"
+    },
+    {
+      "name": "BLE\nCMD 20",
+      "title": "BLE Command 20"
+    },
+    {
+      "name": "BLE\nCMD 21",
+      "title": "BLE Command 21"
+    },
+    {
+      "name": "BLE\nCMD 22",
+      "title": "BLE Command 22"
+    },
+    {
+      "name": "BLE\nCMD 23",
+      "title": "BLE Command 23"
+    },
+    {
+      "name": "BLE\nCMD 24",
+      "title": "BLE Command 24"
+    },
+    {
+      "name": "BLE\nCMD 25",
+      "title": "BLE Command 25"
+    },
+    {
+      "name": "BLE\nCMD 26",
+      "title": "BLE Command 26"
+    },
+    {
+      "name": "BLE\nCMD 27",
+      "title": "BLE Command 27"
+    },
+    {
+      "name": "BLE\nCMD 28",
+      "title": "BLE Command 28"
+    },
+    {
+      "name": "BLE\nCMD 29",
+      "title": "BLE Command 29"
+    },
+    {
+      "name": "BLE\nCMD 30",
+      "title": "BLE Command 30"
+    },
+    {
+      "name": "BLE\nCMD 31",
+      "title": "BLE Command 31"
+    }
+  ]
 }

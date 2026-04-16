@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ansi.h"
 #include "usb_main.h"
 #include "rf_driver.h"
+#include "ble_cmd.h"
 
 
 user_config_t user_config;  
@@ -414,6 +415,9 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     no_act_time = 0;
+    if (process_record_ble_cmd(keycode, record->event.pressed)) {
+      return false;
+    }
     switch (keycode) {
         case RF_DFU:
             if (record->event.pressed) {
@@ -727,7 +731,9 @@ void m_londing_eeprom_data(void)
         user_config.ee_side_rgb             = side_rgb;
         user_config.ee_side_colour          = side_colour;
         f_dev_sleep_enable                  = true;
-        eeconfig_update_user_datablock(&user_config);  
+        f_ble_cmd_enabled                   = false;
+        user_config.ee_ble_cmd_slot         = LINK_BT_1;
+        eeconfig_update_user_datablock(&user_config);
     } else {
         side_mode_a   = user_config.ee_side_mode_a;
         side_mode_b   = user_config.ee_side_mode_b;
@@ -735,6 +741,10 @@ void m_londing_eeprom_data(void)
         side_speed  = user_config.ee_side_speed;
         side_rgb    = user_config.ee_side_rgb;
         side_colour = user_config.ee_side_colour;
+        // Sanitize ee_ble_cmd_slot in case EEPROM was written before this field existed
+        if (user_config.ee_ble_cmd_slot < LINK_BT_1 || user_config.ee_ble_cmd_slot > LINK_BT_3) {
+            user_config.ee_ble_cmd_slot = LINK_BT_1;
+        }
     }
 }
 
@@ -744,14 +754,20 @@ void m_londing_eeprom_data(void)
  */
 void keyboard_post_init_kb(void)
 {
-    m_gpio_init();      
+    m_gpio_init();
+    m_londing_eeprom_data();
     rf_uart_init();
     wait_ms(500);
     rf_device_init();
 
     m_break_all_key();
-    m_londing_eeprom_data();
     m_power_on_dial_sw_scan();
+
+    // Force it here so dev_sts_sync() sends CMD_SET_LINK(BLE slot) if enabled.
+    if (f_ble_cmd_enabled && dev_info.link_mode == LINK_USB) {
+        f_send_channel = 1;
+    }
+
     keyboard_post_init_user();
 
     rf_link_show_time = 0;

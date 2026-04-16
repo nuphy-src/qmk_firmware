@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ansi.h"
 #include "uart.h"  // qmk uart.h
 #include "rf_driver.h"
+#include "ble_cmd.h"
+#include "print.h"
 
 USART_MGR_STRUCT Usart_Mgr;
 #define RX_SBYTE    Usart_Mgr.RXDBuf[0]
@@ -250,7 +252,14 @@ void RF_Protocol_Receive(void) {
             case CMD_RF_STS_SYSC: {
                 static uint8_t error_cnt = 0;
 
-                if (dev_info.link_mode == Usart_Mgr.RXDBuf[4]) {
+                uint8_t expected = ble_cmd_sync_mode();
+                static uint8_t last_rx = 0xff;
+                if (Usart_Mgr.RXDBuf[4] != last_rx || error_cnt >= 5) {
+                    last_rx = Usart_Mgr.RXDBuf[4];
+                    dprintf("[ble_cmd] SYSC rx=%u exp=%u err=%u rf=%u\n",
+                            Usart_Mgr.RXDBuf[4], expected, error_cnt, dev_info.rf_state);
+                }
+                if (Usart_Mgr.RXDBuf[4] == expected) {
                     error_cnt = 0;
 
                     dev_info.rf_state = Usart_Mgr.RXDBuf[5];
@@ -336,17 +345,21 @@ uint8_t uart_send_cmd(uint8_t cmd, uint8_t wait_ack, uint8_t delayms) {
         }
 
         case CMD_RF_STS_SYSC: {
+            uint8_t sync_mode   = ble_cmd_sync_mode();
             Usart_Mgr.TXDBuf[3] = 1;
-            Usart_Mgr.TXDBuf[4] = dev_info.link_mode;
-            Usart_Mgr.TXDBuf[5] = dev_info.link_mode;
+            Usart_Mgr.TXDBuf[4] = sync_mode;
+            Usart_Mgr.TXDBuf[5] = sync_mode;
             break;
         }
 
         case CMD_SET_LINK: {
+            uint8_t link_mode   = ble_cmd_sync_mode();
+            dprintf("[ble_cmd] CMD_SET_LINK: link_mode=%u dev_link=%u ble_cmd=%u\n",
+                    link_mode, dev_info.link_mode, (uint8_t)f_ble_cmd_enabled);
             dev_info.rf_state   = RF_LINKING;
             Usart_Mgr.TXDBuf[3] = 1;
-            Usart_Mgr.TXDBuf[4] = dev_info.link_mode;
-            Usart_Mgr.TXDBuf[5] = dev_info.link_mode;
+            Usart_Mgr.TXDBuf[4] = link_mode;
+            Usart_Mgr.TXDBuf[5] = link_mode;
 
             rf_linking_time  = 0;
             disconnect_delay = 0xff;
